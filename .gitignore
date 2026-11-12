@@ -481,3 +481,6 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
+
+# Per-machine run settings that Visual Studio creates on first run
+**/Properties/launchSettings.json
