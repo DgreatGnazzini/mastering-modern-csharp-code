@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Turns on the trimming and AOT analyzers for this library,
+         so any reflection that would break under AOT is a warning
+         (an error here, with TreatWarningsAsErrors). -->
+    <IsAotCompatible>true</IsAotCompatible>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Numerics.Tensors" />
+    <!-- Run the generator during the build; don't reference it. -->
+    <ProjectReference Include="../Ch08.Generators/Ch08.Generators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>

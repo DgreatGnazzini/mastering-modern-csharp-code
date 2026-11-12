@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "MasteringModernCSharp.Ch11.Stock";
+
+package inventory.v1;
+
+import "google/protobuf/timestamp.proto";
+
+service Inventory {
+  // Unary: one request, one reply.
+  rpc GetStock (StockRequest) returns (StockReply);
+  // Server streaming: the current level, then every change.
+  rpc WatchStock (WatchRequest) returns (stream StockReply);
+}
+
+message StockRequest {
+  string sku = 1;
+}
+
+message WatchRequest {
+  repeated string skus = 1;
+}
+
+message StockReply {
+  string sku = 1;
+  int32 quantity = 2;
+  google.protobuf.Timestamp as_of = 3;
+}

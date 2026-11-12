@@ -1,0 +1,7 @@
+<Project>
+  <!--
+    Stops file-based apps in this folder from inheriting the book
+    solution's settings, such as central package management, so
+    each script behaves exactly as it would on a reader's machine.
+  -->
+</Project>

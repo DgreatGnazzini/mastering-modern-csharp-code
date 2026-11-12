@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Ch02.CSharp14/Ch02.CSharp14.csproj" />
+    <Project Path="src/Ch03.Types/Ch03.Types.csproj" />
+    <Project Path="src/Ch04.Patterns/Ch04.Patterns.csproj" />
+    <Project Path="src/Ch05.Collections/Ch05.Collections.csproj" />
+    <Project Path="src/Ch06.Text/Ch06.Text.csproj" />
+    <Project Path="src/Ch07.Async/Ch07.Async.csproj" />
+    <Project Path="src/Ch08.Benchmarks/Ch08.Benchmarks.csproj" />
+    <Project Path="src/Ch08.Generators/Ch08.Generators.csproj" />
+    <Project Path="src/Ch08.Performance/Ch08.Performance.csproj" />
+    <Project Path="src/Ch09.WebApi/Ch09.WebApi.csproj" />
+    <Project Path="src/Ch10.Data/Ch10.Data.csproj" />
+    <Project Path="src/Ch11.AppHost/Ch11.AppHost.csproj" />
+    <Project Path="src/Ch11.Catalog/Ch11.Catalog.csproj" />
+    <Project Path="src/Ch12.Orders/Ch12.Orders.csproj" />
+    <Project Path="src/Ch12.Security/Ch12.Security.csproj" />
+    <Project Path="src/Ch13.AI/Ch13.AI.csproj" />
+    <Project Path="src/Ch13.McpServer/Ch13.McpServer.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Ch02.CSharp14.Tests/Ch02.CSharp14.Tests.csproj" />
+    <Project Path="tests/Ch03.Types.Tests/Ch03.Types.Tests.csproj" />
+    <Project Path="tests/Ch04.Patterns.Tests/Ch04.Patterns.Tests.csproj" />
+    <Project Path="tests/Ch05.Collections.Tests/Ch05.Collections.Tests.csproj" />
+    <Project Path="tests/Ch06.Text.Tests/Ch06.Text.Tests.csproj" />
+    <Project Path="tests/Ch07.Async.Tests/Ch07.Async.Tests.csproj" />
+    <Project Path="tests/Ch08.Performance.Tests/Ch08.Performance.Tests.csproj" />
+    <Project Path="tests/Ch09.WebApi.Tests/Ch09.WebApi.Tests.csproj" />
+    <Project Path="tests/Ch10.Data.Tests/Ch10.Data.Tests.csproj" />
+    <Project Path="tests/Ch11.AppHost.Tests/Ch11.AppHost.Tests.csproj" />
+    <Project Path="tests/Ch11.Catalog.Tests/Ch11.Catalog.Tests.csproj" />
+    <Project Path="tests/Ch12.Orders.Tests/Ch12.Orders.Tests.csproj" />
+    <Project Path="tests/Ch12.Security.Tests/Ch12.Security.Tests.csproj" />
+    <Project Path="tests/Ch13.AI.Tests/Ch13.AI.Tests.csproj" />
+  </Folder>
+</Solution>

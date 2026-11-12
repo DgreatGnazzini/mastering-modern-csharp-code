@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../src/Ch05.Collections/Ch05.Collections.csproj" />
+  </ItemGroup>
+</Project>

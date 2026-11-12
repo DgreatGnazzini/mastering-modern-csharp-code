@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - run: dotnet build
+      - run: dotnet test --no-build
+      - name: Run Chapter 1 file-based apps
+        working-directory: samples/ch01
+        run: |
+          dotnet run P001_LineCounter.cs -- ../../src
+          dotnet run P002_PackagesAndSettings.cs
+          dotnet build P002_WebApi.cs
+          ./P003_Shebang.cs one two

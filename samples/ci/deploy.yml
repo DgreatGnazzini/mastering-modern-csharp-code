@@ -1,0 +1,104 @@
+# Build, test, package and deploy the catalog service.
+# Copy to .github/workflows/ in your own repository to use it.
+name: catalog
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:                       # one deployment at a time
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/catalog
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - run: dotnet build -c Release
+      - run: >
+          dotnet test --no-build -c Release
+          --report-xunit-trx --results-directory TestResults
+      - uses: actions/upload-artifact@v4
+        if: always()               # keep results of failed runs too
+        with:
+          name: test-results
+          path: '**/TestResults/*.trx'
+      - name: Fail if the model changed without a migration
+        run: |
+          dotnet tool install --global dotnet-ef --version 10.0.*
+          dotnet ef migrations has-pending-model-changes \
+            --project src/Ch10.Data
+      - name: Build the migration bundle
+        run: >
+          dotnet ef migrations bundle --project src/Ch10.Data
+          --self-contained -r linux-x64 --output efbundle
+      - uses: actions/upload-artifact@v4
+        with:
+          name: efbundle
+          path: efbundle
+
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write              # push to GitHub Container Registry
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - id: tag
+        run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push the image (no Dockerfile)
+        run: >
+          dotnet publish src/Ch11.Catalog -c Release
+          -t:PublishContainer
+          -p:ContainerRegistry=ghcr.io
+          -p:ContainerRepository=${{ github.repository_owner }}/catalog
+          -p:ContainerImageTags='"${{ steps.tag.outputs.tag }};latest"'
+
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    environment: production        # required reviewers, secrets
+    permissions:
+      id-token: write              # OIDC login to Azure, no password
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: efbundle
+      - name: Migrate the database
+        run: |
+          chmod +x efbundle
+          ./efbundle --connection "$SHOP_DB_CONNECTION"
+        env:
+          SHOP_DB_CONNECTION: ${{ secrets.SHOP_DB_CONNECTION }}
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Roll out the new image
+        run: >
+          az containerapp update --name catalog
+          --resource-group shop-prod
+          --image ${{ env.IMAGE }}:${{ needs.publish.outputs.tag }}
