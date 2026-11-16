@@ -1,6 +1,6 @@
 # Modern C# for Experienced Developers — companion code
 
-The complete, tested code for the book **Modern C# for Experienced Developers: 120 Real-World Solutions with C# 14 and .NET 10** by John Gnazzo.
+The complete, tested code for the book **Modern C# for Experienced Developers: 120 Production-Ready C# Solutions** by John Gnazzo.
 
 Every listing in the book comes from this repository, and every problem from Chapter 2 on has tests.
 
