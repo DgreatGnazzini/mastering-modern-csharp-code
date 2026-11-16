@@ -16,7 +16,7 @@ public static class ApiDocs
                 {
                     Title = "Shop API",
                     Version = "v1",
-                    Description = "Sample API for Mastering Modern C#.",
+                    Description = "Sample API from the book.",
                 };
                 return Task.CompletedTask;
             });
